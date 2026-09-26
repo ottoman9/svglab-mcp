@@ -1,0 +1,35 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "app.svglab/svglab",
+  "title": "SVG Lab",
+  "description": "Design engine for AI: app screens, icons, illustrations and charts as clean SVG in SVG Lab projects.",
+  "version": "0.1.1",
+  "websiteUrl": "https://svglab.app/mcp-server",
+  "repository": {
+    "url": "https://github.com/ottoman9/svglab-mcp",
+    "source": "github",
+    "id": "1388779879"
+  },
+  "icons": [
+    {
+      "src": "https://svglab.app/favicon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    },
+    {
+      "src": "https://svglab.app/logo.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "512x512"
+      ]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://svglab.app/mcp"
+    }
+  ]
+}

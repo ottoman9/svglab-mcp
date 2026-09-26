@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "svglab": {
+      "type": "remote",
+      "url": "https://svglab.app/mcp",
+      "enabled": true
+    }
+  }
+}

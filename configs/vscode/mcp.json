@@ -1,0 +1,8 @@
+{
+  "servers": {
+    "svglab": {
+      "type": "http",
+      "url": "https://svglab.app/mcp"
+    }
+  }
+}
