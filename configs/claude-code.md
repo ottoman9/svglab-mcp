@@ -10,7 +10,7 @@ Leave out `--scope user` to add it to the current project only.
 
 Sign in: start Claude Code, type `/mcp`, choose svglab and pick Authenticate. The browser opens the SVG Lab sign-in page; press Approve. From outside a session, `claude mcp login svglab` does the same. `/mcp` should then show svglab as connected.
 
-With a key instead of sign-in (create it in SVG Lab: account menu, Connect your AI, Generate key):
+With a key instead of sign-in (create it in SVG Lab: account menu, SVG Lab MCP, Use a key instead of signing in, Generate key):
 
 ```sh
 claude mcp add --transport http --scope user svglab https://svglab.app/mcp --header "Authorization: Bearer svl_YOUR_KEY"

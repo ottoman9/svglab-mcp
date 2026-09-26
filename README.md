@@ -40,12 +40,12 @@ scope:             mcp
 client_id:         not needed; leave client ID and client secret empty
 no_credentials:    POST /mcp answers 401 with a WWW-Authenticate header pointing at resource_metadata
 key_alternative:   header "Authorization: Bearer svl_KEY" (the user creates the key at svglab.app:
-                   account menu, Connect your AI, Generate key). Never invent a key.
+                   account menu, SVG Lab MCP, Generate key). Never invent a key.
 access:            the account needs SVG Lab MCP early access: https://svglab.app/mcp-early-access
 cost:              early access is free until Friday 2 October 2026; pricing announced at general release
 browser_tab:       not needed; the server runs the design engine and saves to the user's My Projects
 first_call:        can take 10 to 30 seconds while the design engine starts
-sessions:          one AI session per SVG Lab account at a time
+sessions:          up to 2 AI sessions per SVG Lab account at once, each in its own artboard group
 registry_name:     app.svglab/svglab
 setup_markdown:    https://svglab.app/mcp-setup (send the header Accept: text/markdown)
 agent_skill:       skills/svglab-mcp/SKILL.md in this repository (npx skills add ottoman9/svglab-mcp)
@@ -222,7 +222,7 @@ Start Gemini CLI; it opens the browser for the sign-in. To start it yourself, ty
 - Server URL: `https://svglab.app/mcp`
 - Transport: streamable HTTP (sometimes shown as "HTTP" or "remote"). Not SSE, and not a local command.
 - Authentication: OAuth. SVG Lab supports automatic app registration and PKCE, so leave any client ID and secret fields empty.
-- Or a header: `Authorization: Bearer svl_YOUR_KEY` if the app has no sign-in support. Create the key in SVG Lab: account menu, Connect your AI, Generate key.
+- Or a header: `Authorization: Bearer svl_YOUR_KEY` if the app has no sign-in support. Create the key in SVG Lab: account menu, SVG Lab MCP, Use a key instead of signing in, Generate key.
 
 ```json
 {
@@ -271,16 +271,16 @@ The SVG Lab MCP is in **early access**. Early access is free until Friday 2 Octo
 No. Every app above can sign in: it opens SVG Lab's sign-in page, you press Approve, and you are connected. A key is only an alternative for command line apps or machines with no browser.
 
 **Do I need to keep SVG Lab open in a tab?**
-No. SVG Lab runs the design engine on its own servers, and everything your assistant makes is saved to My Projects. To watch it work live, open SVG Lab, click Connect to AI in the top bar and give your assistant the code it shows.
+No. Nothing needs to be open in SVG Lab, and there is no code to type in. SVG Lab runs the design engine on its own servers, and everything your assistant makes is saved to My Projects, ready when you open SVG Lab.
 
 **Which account does my work go to?**
 The SVG Lab account you signed in with when you pressed Approve.
 
 **Can I connect more than one app?**
-Yes. Run one AI session per SVG Lab account at a time; two sessions working on one account at once can interrupt each other.
+Yes. Connect as many apps as you like. Up to two AI sessions can design on one SVG Lab account at the same time, each in its own group of artboards, and you can keep working on the rest of the project while they do.
 
 **How do I disconnect an app?**
-In SVG Lab, open the account menu (your email, top right) and choose Connect your AI. Under Connected apps, press Disconnect next to the app.
+Open SVG Lab, open the account menu (your email, top right) and choose SVG Lab MCP. Under Connected apps, press Disconnect next to the app. It stops working straight away.
 
 **Is there a package to install or a separate MCP subdomain?**
 No. There is nothing to install and no mcp.svglab.app. The one and only server address is https://svglab.app/mcp.
