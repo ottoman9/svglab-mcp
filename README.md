@@ -10,7 +10,7 @@ https://svglab.app/mcp
 
 Streamable HTTP, OAuth sign-in, no key needed.
 
-This repository holds documentation, ready-made client configs and an agent skill. It contains no server code. The full, always current setup guide is at **https://svglab.app/mcp-setup**.
+This repository holds documentation, ready-made client configs and an agent skill. It contains no server code. The full, always current setup guide is at [svglab.app/mcp-setup](https://svglab.app/mcp-setup).
 
 ## Contents
 
