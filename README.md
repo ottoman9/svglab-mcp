@@ -41,8 +41,8 @@ client_id:         not needed; leave client ID and client secret empty
 no_credentials:    POST /mcp answers 401 with a WWW-Authenticate header pointing at resource_metadata
 key_alternative:   header "Authorization: Bearer svl_KEY" (the user creates the key at svglab.app:
                    account menu, SVG Lab MCP, Generate key). Never invent a key.
-access:            the account needs SVG Lab MCP early access: https://svglab.app/mcp-early-access
-cost:              early access is free until Friday 2 October 2026; pricing announced at general release
+access:            the account needs the Plus or Max plan (or granted early access): https://svglab.app/billing
+cost:              included in the Plus and Max plans, each with a monthly request allowance (1 tool call = 1 request, failed calls free)
 browser_tab:       not needed; the server runs the design engine and saves to the user's My Projects
 first_call:        can take 10 to 30 seconds while the design engine starts
 sessions:          up to 2 AI sessions per SVG Lab account at once, each in its own artboard group
@@ -53,20 +53,20 @@ agent_skill:       skills/svglab-mcp/SKILL.md in this repository (npx skills add
 
 Procedure:
 
-1. **Find the app.** Work out which app the user is in (Claude Code, OpenCode, Codex, Cursor, VS Code, Gemini CLI, Windsurf, Claude, ChatGPT). If you cannot tell, ask once. If the user is not sure their account has access, ask them to open https://svglab.app/mcp-early-access while signed in: it says "MCP is already on for you" when access is on.
+1. **Find the app.** Work out which app the user is in (Claude Code, OpenCode, Codex, Cursor, VS Code, Gemini CLI, Windsurf, Claude, ChatGPT). If you cannot tell, ask once. If the user is not sure their account has access, ask them to open https://svglab.app/billing while signed in: it shows the current plan, and the SVG Lab MCP comes with Plus and Max.
 2. **Add the server.** Use that app's block below exactly as written, with the name `svglab`. Prefer the user level config (every project) unless the user asks for one project. When editing a config file, merge the entry into the existing file and keep every other server and setting. Never put a key in a project file that could be committed to git; use the environment variable form.
 3. **Start the sign-in.** Run the app's sign-in step (for example `opencode mcp auth svglab`, or `/mcp` in Claude Code). It opens the browser and waits until the user signs in to SVG Lab and presses Approve, so either run it and wait, or ask the user to run it in their own terminal. You cannot approve for them; tell them what to expect.
 4. **Reload.** Restart the app or start a new session so it loads the SVG Lab tools. If you are running inside the app you are configuring, a restart ends your own session: finish the steps above first, then ask the user to restart and paste the test prompt from [Check it works](#check-it-works) into a new session.
-5. **Verify.** In the new session, check your own tool list for tools from svglab. With access there are dozens of design tools. If there is only one tool, an account status tool, the connection works but the account cannot design yet (access is off, the account is suspended, or a key was replaced): call it and pass its message to the user. With sign-in, an account without early access usually stops earlier: the SVG Lab sign-in page says the MCP is in early access and does not let the user approve.
+5. **Verify.** In the new session, check your own tool list for tools from svglab. With access there are dozens of design tools. If there is only one tool, an account status tool, the connection works but the account cannot design yet (no Plus or Max plan, the account is suspended, or a key was replaced): call it and pass its message to the user. With sign-in, an account without access usually stops earlier: the SVG Lab sign-in page says the SVG Lab MCP is not on the account's plan and does not let the user approve.
 6. **Test.** Run the test prompt from [Check it works](#check-it-works) and give the user the project link it returns. The first design step can take 10 to 30 seconds; that is not a failure.
-7. **If access is not granted**, tell the user: "SVG Lab is set up, but your SVG Lab account does not have MCP early access yet. Request it at https://svglab.app/mcp-early-access with the same account. You will get an email when it is switched on, and then it works with no more setup."
+7. **If access is not granted**, tell the user: "SVG Lab is set up, but your SVG Lab account does not include the SVG Lab MCP. It comes with the Plus and Max plans: choose one at https://svglab.app/billing with the same account, and then it works with no more setup."
 
 ## Before you start
 
 1. An SVG Lab account. Sign in at https://svglab.app/ with Google or an email link.
-2. SVG Lab MCP early access switched on for that account. Request it at https://svglab.app/mcp-early-access . You get a confirmation email straight away and another one when your account is switched on.
+2. The Plus or Max plan on that account: both include the SVG Lab MCP. Choose one at https://svglab.app/billing . Accounts granted early access have it too.
 
-Sign in with the same account every time: when the AI app opens the SVG Lab sign-in page, use the account that has early access. Designs are saved to that account's My Projects.
+Sign in with the same account every time: when the AI app opens the SVG Lab sign-in page, use the account that has Plus, Max or early access. Designs are saved to that account's My Projects.
 
 Every app signs in the same way: add the address, the app opens a "Sign in to SVG Lab" page, sign in, check which app is asking, press Approve.
 
@@ -100,7 +100,7 @@ Needs developer mode, available on the web for ChatGPT Plus, Pro, Business, Ente
 
 1. Settings, then Security and login: turn on Developer mode.
 2. Open Plugins and press + to create a developer mode app.
-3. Name: `SVG Lab`. Description: `Design engine: app screens, icons, illustrations and charts as clean SVG`. MCP server URL: `https://svglab.app/mcp`. Authentication: OAuth.
+3. Name: `SVG Lab`. Description: `Design engine: app screens, icons, illustrations and charts as finished SVG`. MCP server URL: `https://svglab.app/mcp`. Authentication: OAuth.
 4. Create it. When ChatGPT asks you to sign in, sign in to SVG Lab and press Approve.
 5. In a chat, open the + menu, choose Developer mode and select SVG Lab.
 
@@ -108,7 +108,15 @@ ChatGPT renames these menus from time to time. If Plugins is missing, look for A
 
 ### Codex
 
-The desktop app, IDE extension and CLI share `~/.codex/config.toml`, so add SVG Lab once:
+Everything happens in the Codex app; no terminal needed. The app, the IDE extension and the CLI share `~/.codex/config.toml`, so add SVG Lab once.
+
+1. In the Codex app, open Settings, then Plugins, then the MCPs tab.
+2. Press Add, then Connect to a custom MCP.
+3. Name it `SVG Lab`, set the type to Streamable HTTP, and paste the URL `https://svglab.app/mcp`. Leave the bearer token and headers empty, then press Save.
+4. In the Servers list, press Authenticate on the SVG Lab row (next to the gear icon, before the switch). The browser opens the SVG Lab sign-in page; press Approve. When the browser says the sign-in is complete, go back to Codex.
+5. Start a new Codex thread so it loads the SVG Lab tools.
+
+From the terminal instead (developers):
 
 ```sh
 codex mcp add svglab --url https://svglab.app/mcp
@@ -121,7 +129,7 @@ Or add to `~/.codex/config.toml` by hand:
 url = "https://svglab.app/mcp"
 ```
 
-Open the Codex app, go to its MCP server settings, find svglab and press Authenticate. The browser opens the SVG Lab sign-in page; press Approve. Start a new Codex chat so it loads the SVG Lab tools.
+Then sign in with the app's Authenticate button as in step 4.
 
 ### Cursor
 
@@ -263,7 +271,7 @@ App screens made through the SVG Lab MCP, as shown on [svglab.app/mcp-server](ht
 
 ## Access
 
-The SVG Lab MCP is in **early access**. Early access is free until Friday 2 October 2026. Request it at https://svglab.app/mcp-early-access with a free SVG Lab account; you get an email when it is switched on. Pricing will be announced at general release.
+The SVG Lab MCP is included in the **Plus** and **Max** plans, each with a monthly allowance of requests. One tool call is one request, and calls that fail are not counted. Choose a plan at https://svglab.app/billing , then connect. Accounts granted early access have it too.
 
 ## FAQ
 
@@ -273,8 +281,11 @@ No. Every app above can sign in: it opens SVG Lab's sign-in page, you press Appr
 **Do I need to keep SVG Lab open in a tab?**
 No. Nothing needs to be open in SVG Lab, and there is no code to type in. SVG Lab runs the design engine on its own servers, and everything your assistant makes is saved to My Projects, ready when you open SVG Lab.
 
+**What does it cost?**
+The SVG Lab MCP is included in the Plus and Max plans, each with a monthly allowance of requests. One tool call is one request, and calls that fail are not counted. See the plans at https://svglab.app/billing .
+
 **Which account does my work go to?**
-The SVG Lab account you signed in with when you pressed Approve.
+The SVG Lab account you signed in with when you pressed Approve. Use the same account that has Plus, Max or early access.
 
 **Can I connect more than one app?**
 Yes. Connect as many apps as you like. Up to two AI sessions can design on one SVG Lab account at the same time, each in its own group of artboards, and you can keep working on the rest of the project while they do.
@@ -294,7 +305,7 @@ More answers and troubleshooting: https://svglab.app/mcp-setup . Still stuck? Em
 
 - Website: https://svglab.app/mcp-server
 - Setup guide: https://svglab.app/mcp-setup
-- Early access: https://svglab.app/mcp-early-access
+- Plans: https://svglab.app/billing
 - llms.txt: https://svglab.app/llms.txt
 - MCP server card: https://svglab.app/.well-known/mcp/server-card.json
 - Official MCP Registry entry `app.svglab/svglab`: https://registry.modelcontextprotocol.io/v0.1/servers?search=app.svglab
