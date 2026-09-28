@@ -1,6 +1,6 @@
 # SVG Lab MCP
 
-**SVG Lab MCP** is the remote MCP server of [SVG Lab (svglab.app)](https://svglab.app/mcp-server). It gives Claude, ChatGPT, Codex, Cursor and any other MCP client a design engine that builds app screens, icons, illustrations and charts as clean SVG, saved to your SVG Lab projects and ready to export as SVG, PNG or PDF.
+**SVG Lab MCP** is the remote MCP server of [SVG Lab (svglab.app)](https://svglab.app/mcp-server). It houses SVG Lab's Design Engine: the Design Engine for AI. Connect Claude, ChatGPT, Codex, Cursor or any other MCP client and the Design Engine does the design work (layout, spacing, type, colour and drawing), checked before it hands you finished app screens, icons, illustrations and charts as clean SVG, saved to your SVG Lab projects and ready to export as SVG, PNG or PDF.
 
 The AI brings the idea (content, palette, direction); SVG Lab guarantees the structure (spacing, alignment, sizing, type, valid vector geometry). It runs on SVG Lab's servers, so there is nothing to install and no browser tab needs to stay open.
 
@@ -43,8 +43,8 @@ key_alternative:   header "Authorization: Bearer svl_KEY" (the user creates the 
                    account menu, SVG Lab MCP, Generate key). Never invent a key.
 access:            every account gets 100 free requests once to try it, no form; then the Plus or Max plan, or top-ups: https://svglab.app/billing
 cost:              100 free requests once per account, then Plus and Max (monthly request allowance) or top-ups (never expire); 1 tool call = 1 request, failed calls free
-browser_tab:       not needed; the server runs the design engine and saves to the user's My Projects
-first_call:        can take 10 to 30 seconds while the design engine starts
+browser_tab:       not needed; the server runs the Design Engine and saves to the user's My Projects
+first_call:        can take 10 to 30 seconds while the Design Engine starts
 sessions:          up to 2 AI sessions per SVG Lab account at once, each in its own artboard group
 registry_name:     app.svglab/svglab
 setup_markdown:    https://svglab.app/mcp-setup (send the header Accept: text/markdown)
@@ -100,7 +100,7 @@ Needs developer mode, available on the web for ChatGPT Plus, Pro, Business, Ente
 
 1. Settings, then Security and login: turn on Developer mode.
 2. Open Plugins and press + to create a developer mode app.
-3. Name: `SVG Lab`. Description: `Design engine: app screens, icons, illustrations and charts as finished SVG`. MCP server URL: `https://svglab.app/mcp`. Authentication: OAuth.
+3. Name: `SVG Lab`. Description: `Design Engine for AI: app screens, icons, illustrations and charts as finished SVG`. MCP server URL: `https://svglab.app/mcp`. Authentication: OAuth.
 4. Create it. When ChatGPT asks you to sign in, sign in to SVG Lab and press Approve.
 5. In a chat, open the + menu, choose Developer mode and select SVG Lab.
 
@@ -250,7 +250,7 @@ Start a new chat in the AI app and paste this prompt:
 Use the SVG Lab MCP server (svglab). First check my SVG Lab account status and tell me which account you are connected to and whether design access is on. Then create a new SVG Lab project called "Setup test", design a simple 64 by 64 paper plane icon in it, and give me the link to the project.
 ```
 
-Expected: the assistant says it is connected to SVG Lab and names the account; it designs the icon (the first design step can take 10 to 30 seconds while SVG Lab starts the design engine; later steps are quick); it gives a link, and the new project is in My Projects, ready to edit or export as SVG, PNG or PDF.
+Expected: the assistant says it is connected to SVG Lab and names the account; it designs the icon (the first design step can take 10 to 30 seconds while SVG Lab starts the Design Engine; later steps are quick); it gives a link, and the new project is in My Projects, ready to edit or export as SVG, PNG or PDF.
 
 ## Examples
 
@@ -279,7 +279,7 @@ Every SVG Lab account gets **100 free requests** to try the SVG Lab MCP, once, w
 No. Every app above can sign in: it opens SVG Lab's sign-in page, you press Approve, and you are connected. A key is only an alternative for command line apps or machines with no browser.
 
 **Do I need to keep SVG Lab open in a tab?**
-No. Nothing needs to be open in SVG Lab, and there is no code to type in. SVG Lab runs the design engine on its own servers, and everything your assistant makes is saved to My Projects, ready when you open SVG Lab.
+No. Nothing needs to be open in SVG Lab, and there is no code to type in. SVG Lab runs the Design Engine on its own servers, and everything your assistant makes is saved to My Projects, ready when you open SVG Lab.
 
 **What does it cost?**
 Every SVG Lab account gets 100 free requests to try the SVG Lab MCP, once, with no form to fill in. After that, the Plus and Max plans each include a monthly allowance of requests, and top-ups add requests that never expire (150 requests per US dollar, from 10 dollars; all purchases are final). One tool call is one request, and calls that fail are not counted. See the plans and top-ups at https://svglab.app/billing .
@@ -297,7 +297,7 @@ Open SVG Lab, open the account menu (your email, top right) and choose SVG Lab M
 No. There is nothing to install and no mcp.svglab.app. The one and only server address is https://svglab.app/mcp.
 
 **The first request is slow.**
-Normal. The first design step starts the design engine and can take 10 to 30 seconds.
+Normal. The first design step starts the Design Engine and can take 10 to 30 seconds.
 
 More answers and troubleshooting: https://svglab.app/mcp-setup . Still stuck? Email support@svglab.app with the app and the exact message.
 

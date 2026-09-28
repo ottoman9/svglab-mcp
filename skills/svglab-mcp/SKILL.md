@@ -5,7 +5,7 @@ description: Connect to the SVG Lab MCP server (svglab.app) to design app screen
 
 # SVG Lab MCP
 
-SVG Lab (svglab.app) has a remote MCP server that gives AI apps a design engine. The AI brings the idea (content, palette, direction); SVG Lab guarantees the structure (spacing, alignment, sizing, type, valid vector geometry). Everything it makes is saved to the user's SVG Lab projects as finished designs that export as SVG, PNG or PDF. It runs on SVG Lab's servers, so nothing needs to be open in SVG Lab and there is no pairing code.
+SVG Lab (svglab.app) has a remote MCP server, the SVG Lab MCP, that houses SVG Lab's Design Engine: the Design Engine for AI. The AI brings the idea (content, palette, direction); SVG Lab guarantees the structure (spacing, alignment, sizing, type, valid vector geometry). Everything it makes is saved to the user's SVG Lab projects as finished designs that export as SVG, PNG or PDF. It runs on SVG Lab's servers, so nothing needs to be open in SVG Lab and there is no pairing code.
 
 ## Facts
 
@@ -24,8 +24,8 @@ key_alternative:   header "Authorization: Bearer svl_KEY" (the user creates the 
                    account menu, SVG Lab MCP, Generate key). Never invent a key.
 access:            every account gets 100 free requests once to try it, no form; then the Plus or Max plan, or top-ups: https://svglab.app/billing
 cost:              100 free requests once per account, then Plus and Max (monthly request allowance) or top-ups (never expire); 1 tool call = 1 request, failed calls free
-browser_tab:       not needed; the server runs the design engine and saves to the user's My Projects
-first_call:        can take 10 to 30 seconds while the design engine starts
+browser_tab:       not needed; the server runs the Design Engine and saves to the user's My Projects
+first_call:        can take 10 to 30 seconds while the Design Engine starts
 sessions:          up to 2 AI sessions per SVG Lab account at once, each in its own artboard group
 full_guide:        https://svglab.app/mcp-setup (send the header Accept: text/markdown for Markdown)
 ```

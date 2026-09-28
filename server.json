@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "app.svglab/svglab",
   "title": "SVG Lab",
-  "description": "Design engine for AI: app screens, icons, illustrations and charts as clean SVG in SVG Lab projects.",
+  "description": "SVG Lab MCP: the Design Engine for AI. App screens, icons, illustrations and charts as SVG.",
   "version": "0.1.1",
   "websiteUrl": "https://svglab.app/mcp-server",
   "repository": {
