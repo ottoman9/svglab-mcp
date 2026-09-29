@@ -3,7 +3,7 @@
   "name": "app.svglab/svglab",
   "title": "SVG Lab",
   "description": "SVG Lab MCP: the Design Engine for AI. App screens, icons, illustrations and charts as SVG.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "websiteUrl": "https://svglab.app/mcp-server",
   "repository": {
     "url": "https://github.com/ottoman9/svglab-mcp",
