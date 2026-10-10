@@ -1,5 +1,8 @@
 # SVG Lab MCP
 
+[![smithery badge](https://smithery.ai/badge/svglab/svglab)](https://smithery.ai/servers/svglab/svglab)
+Listed on [Smithery](https://smithery.ai/servers/svglab/svglab) and [Glama](https://glama.ai/mcp/connectors/app.svglab/svglab). Facts, offer and setup: https://svglab.app/mcp-server
+
 **SVG Lab MCP** is the remote MCP server of [SVG Lab (svglab.app)](https://svglab.app/mcp-server). It houses SVG Lab's Design Engine: the Design Engine for AI. Connect Claude, ChatGPT, Codex, Cursor or any other MCP client and the Design Engine does the design work (layout, spacing, type, colour and drawing), checked before it hands you finished app screens, icons, illustrations and charts as clean SVG, saved to your SVG Lab projects and ready to export as SVG, PNG or PDF.
 
 The AI brings the idea (content, palette, direction); SVG Lab guarantees the structure (spacing, alignment, sizing, type, valid vector geometry). It runs on SVG Lab's servers, so there is nothing to install and no browser tab needs to stay open.
