@@ -3,7 +3,7 @@
   "name": "app.svglab/svglab",
   "title": "SVG Lab",
   "description": "SVG Lab MCP: the Design Engine for AI. App screens, icons, illustrations and charts as SVG.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "websiteUrl": "https://svglab.app/mcp-server",
   "repository": {
     "url": "https://github.com/ottoman9/svglab-mcp",
@@ -29,7 +29,7 @@
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://svglab.app/mcp"
+      "url": "https://svglab.app/mcp/agents"
     }
   ]
 }
