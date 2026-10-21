@@ -1,0 +1,681 @@
+{
+  "identifier": "svglab",
+  "name": "SVG Lab",
+  "version": "0.1.3",
+  "description": "SVG Lab MCP, a remote server that designs editable vector app screens, icons, illustrations and charts in your SVG Lab projects. Listing the tools needs no sign-in; running them needs an SVG Lab account (OAuth sign-in or API key).",
+  "author": "SVG Lab",
+  "authorUrl": "https://github.com/ottoman9",
+  "homepage": "https://svglab.app/mcp-server",
+  "cloudEndpoint": "https://svglab.app/mcp/agents",
+  "icon": "https://svglab.app/logo.png",
+  "tags": [
+    "svg",
+    "design",
+    "vector",
+    "ui-design",
+    "icons",
+    "illustration",
+    "remote"
+  ],
+  "tools": [
+    {
+      "name": "account_status",
+      "title": "Check account access",
+      "description": "Check which SVG Lab plan this account is on, whether the SVG Lab editing tools are available to you, and how many MCP requests are left (plan allowance, free trial, top-up balance). Call this first if other tools are missing, then relay the message to the user as written.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      },
+      "annotations": {
+        "title": "Check account access",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "run",
+      "title": "Run a design script",
+      "description": "Run JavaScript inside the user's SVG Lab editor, in one call. One run can build a whole screen or illustration. The code is the body of an async function: use await, loops, helper functions and data, and return a JSON value. It gets sl: await sl.op(name, args) runs one SVG Lab operation and returns its result, and throws on failure with the reason, so the script stops like normal code; await sl.try(name, args) is the same but returns {ok:false, message} instead of throwing; sl.log(...) and console.log are returned in logs; sl.ids(receipt) reads editable ids; creators return shape_ids and handle while retaining old fields. Pass a receipt or group id as shape_ids/target_ids; explicit ids take precedence over ambient artboard. sl.define(name, source) stores your function with the project for later sl.helpers[name](args) calls; its source closes over sl in the same sandbox. sl.batch(items) chunks creations. sl.glow, terrain, stars, crescent and reflection return editable assemblies with your style; sl.chartScale(domain, range) maps custom data. docs {recipe:'helpers'} gives their contracts. sl.artboard is the artboard passed to run ({id, name, x, y, width, height}) or null. With artboard, operations that take an artboard use it when you leave it out, and their coordinates are local to it (0,0 is its top-left). Operations: create_shape, create_shapes, create_text, create_path, pencil, edit_path, simplify_path, smooth_path, boolean_op, offset_path, transform, align, distribute, align_to_artboard, set_style, set_stroke, set_gradient, set_filter, set_pattern, clip_shapes, clip_to_artboard, text_on_path, set_text, duplicate, group, ungroup, name_group, reorder, resize, fit_to_box, fit_to_children, repeat, mirror, flip, scatter, add_texture, create_icon, create_layout, update_layout, design_tokens, define_styles, list_design_styles, measure_text, list_fonts, list_components, list_layouts, list_shapes, describe_document, inspect_path, inspect_layout, check_contrast, check_contacts, optical_center, snap_to_grid, normalize_spacing, normalize_radii, resolve_overflow, create_figure, create_limb, create_hand, create_line_of_action, create_organic, form_lines, add_artboard, set_artboard, list_artboards, set_active_artboard, fit_artboard, delete_shapes, make_symbol, place_symbol, list_symbols, detach_symbol, set_locked, define_helper, list_helpers, bind_slot. docs {op} gives any operation's arguments; docs {ops:[...]} reads several together; docs {query} searches operations and guides. The script has no network, DOM or storage: photos go in with place_image, the user's files with upload_asset. Limits: 40 seconds, 2,000 operations, 60,000 characters. Reply: result (your return value), ops, created_ids, changed_ids, warnings from the engine, logs, duration_ms. If it fails: error {message, op, line}; everything done before the error stays on the canvas and created_ids lists what this run made, so delete_shapes them or carry on. Quick arguments (? = optional; artboard defaults to run.artboard): create_shapes {shapes:[], artboard?}; set_gradient {shape_ids:[], type:linear|radial, stops:[]}; transform {shape_ids:[], dx?, dy?, scale?, rotate?}; set_style {shape_ids:[], fill?, stroke?, opacity?}; set_text {shape_ids:[], content?, font_size?, font_family?, font_weight?}; update_layout {layout_id, patches?:[], root?, x?, y?, width?, height?}; create_layout {artboard?, x?, y?, width?, height?, root}; scatter {region, count, item, seed?, artboard?, name?}; reorder {shape_ids:[], mode:front|back|forward|backward|behind|in_front_of}; group {shape_ids?:[], artboard?, name?}; create_icon {icon, x, y, size?, artboard?, name?}; repeat {shape_ids:[], mode?:linear|grid|radial, count, gap?, columns?, artboard?, radius?, rotate?}; design_tokens {preset?:light|dark, set?:{}}; clip_shapes {target_ids:[], clip_id}; list_shapes {artboard?}; duplicate {shape_ids:[]}; set_filter {shape_ids:[]}; boolean_op {op:union|subtract|intersect|exclude, shape_ids:[]}; create_figure {view:side|front|three_quarter, joints:{}, name?, artboard?}; create_path {name?, style?:{}, opacity?, artboard?, points:[], closed?}; measure_text {opacity?, content, font_size?, font_family?, font_weight?}; add_artboard {width?, height?, x?, y?, name?}; create_text {name?, style?:{}, opacity?, artboard?, content, x, y, font_size?, font_family?, font_weight?}; set_artboard {artboard?, width?, height?, x?, y?, name?}; clip_to_artboard {artboard?, shape_ids?:[]}. create_shapes items: {type:\"shape\",kind:\"rect\",x,y,width,height,style} or {type:\"text\",content,x,y,font_family,font_size,style}; style uses fill, stroke, stroke_width, opacity. create_path points: {x,y,hin?:{x,y},hout?:{x,y}}. Gradient stops: {offset:0..1,color}. docs {ops:[...]} has full schemas.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60000,
+            "description": "The body of an async function, given sl (and console). Return a JSON value."
+          },
+          "artboard": {
+            "description": "Artboard index, id or name: operations that take an artboard use it when the script leaves it out.",
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "string",
+                "maxLength": 120
+              }
+            ]
+          }
+        },
+        "required": [
+          "code"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Run a design script",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "look",
+      "title": "Look at an artboard",
+      "description": "See an artboard: the rendered PNG plus measured facts about it: text overflowing its box, text overlapping other text or covered by a shape drawn above it, shapes past the frame (and how far), text contrast below WCAG AA with the ratio, fonts that fell back, and text under 11 px on a phone artboard. Facts are measurements, not a verdict: you decide what to fix. region {x, y, width, height} (artboard-local) crops a detail at up to 8x; scale sets the zoom. Without artboard, the active one. artboards:[refs] or flow:true returns one readable contact sheet and per-artboard facts. before_after:true compares with the previous look of this same view. Inspect the whole flow, choose its most valuable improvement and decide whether to revise; no round quota or score. critique:true optionally adds a separate advisory review; pass a one-paragraph brief, remembered per project.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "artboard": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "string",
+                "maxLength": 120
+              }
+            ]
+          },
+          "artboards": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "string",
+                  "maxLength": 120
+                }
+              ]
+            }
+          },
+          "flow": {
+            "type": "boolean"
+          },
+          "before_after": {
+            "type": "boolean"
+          },
+          "region": {
+            "description": "Crop this rectangle, artboard-local (0,0 is the artboard's top-left).",
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "width": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "height": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "width",
+              "height"
+            ],
+            "additionalProperties": false
+          },
+          "scale": {
+            "description": "Zoom, up to 4 (8 with region). Omit to let the preview pick.",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 8
+          },
+          "critique": {
+            "type": "boolean"
+          },
+          "brief": {
+            "description": "One paragraph for the optional reviewer; retained for this project.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Look at an artboard",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "docs",
+      "title": "Read the engine reference",
+      "description": "SVG Lab's reference, on demand. No arguments: every operation run can call and every design guide, one line each. op: an operation's arguments, output shape and executable examples. ops: up to 25 operations in one reply. recipe: assembly, chunking, recovery, layout-patches or helpers (working scripts with input and output). guide: design and drawing advice. query: keyword search over operations and guides.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "description": "Words to search for, e.g. \"gradient\" or \"draw a hand\".",
+            "type": "string",
+            "maxLength": 200
+          },
+          "op": {
+            "description": "One operation's name, e.g. create_layout.",
+            "type": "string",
+            "maxLength": 64
+          },
+          "ops": {
+            "description": "Several operation names, returned together in request order.",
+            "minItems": 1,
+            "maxItems": 25,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64
+            }
+          },
+          "recipe": {
+            "type": "string",
+            "enum": [
+              "assembly",
+              "chunking",
+              "recovery",
+              "layout-patches",
+              "helpers"
+            ]
+          },
+          "guide": {
+            "description": "One guide's id from the index, e.g. typography-direction.",
+            "type": "string",
+            "maxLength": 64
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Read the engine reference",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "project",
+      "title": "Manage projects",
+      "description": "The user's SVG Lab cloud projects (My Projects). action new {name, imagery?} starts an empty project and switches to it (the current one is saved first); open {project_id} continues earlier work; list shows them, newest first; current gives the project in use and the link to hand the user; export {artboard, outline_text?, background?} returns one artboard as SVG with embedded fonts, without changing the document. Large exports return svg as a plain string slice with part, total_parts and export_id: fetch parts 2 through total_parts with {artboard, part, export_id} and concatenate svg in order without separators; pause saves and closes the server editor (hands your artboards back to the user) before a long think or when you are done; the next call reopens it.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "new",
+              "open",
+              "list",
+              "current",
+              "export",
+              "pause"
+            ]
+          },
+          "name": {
+            "description": "new: shown in My Projects, e.g. 'Coffee shop app'.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "imagery": {
+            "description": "new: \"drawn\" when the brief rules out photos (place_image is then refused).",
+            "type": "string",
+            "enum": [
+              "any",
+              "photo",
+              "mixed",
+              "drawn"
+            ]
+          },
+          "project_id": {
+            "description": "open: the id from list.",
+            "type": "string",
+            "maxLength": 128
+          },
+          "artboard": {
+            "description": "export: the artboard to export.",
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "string",
+                "maxLength": 120
+              }
+            ]
+          },
+          "outline_text": {
+            "description": "export: outline the text in the exported copy.",
+            "type": "boolean"
+          },
+          "background": {
+            "description": "export: a background colour for the exported copy.",
+            "type": "string",
+            "maxLength": 64
+          },
+          "part": {
+            "description": "export: numbered SVG part, starting at 1.",
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "export_id": {
+            "description": "export: the frozen export_id returned with part 1.",
+            "type": "string",
+            "maxLength": 80
+          }
+        },
+        "required": [
+          "action"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Manage projects",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "search_photos",
+      "title": "Search stock photos",
+      "description": "Find real photographs for a screen and CHOOSE one. Each candidate returns its description (alt text), orientation and aspect, pixel size, dominant colour, photographer, licence and the exact attribution string, and (preview, default true) a small thumbnail image so you judge it by eye. Read docs guide photos before the first search. Query the product's own subject and moment (\"barista pouring latte art close up\", not \"coffee\" or \"lifestyle\"). Choose by subject first, then room for text where the caption goes, then colour fit with your palette (compare color to your tokens), then consistency of light and grade with the other photos on the screen; never settle for index 0 by default. Pass the chosen url to place_image, or use it as an image node or photo_card src in create_layout (the server fetches https links). Sources: Unsplash, then Pexels (both need an API key on the deployment; without one the call fails and says so). For the user's OWN files use upload_asset. It is also how you find a reference before hand drawing: pass the chosen url to study a reference using your own image tools {url} and study it. In a drawn only project (imagery \"drawn\") use it only for references; photos are not placed there.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 80
+          },
+          "orientation": {
+            "type": "string",
+            "enum": [
+              "landscape",
+              "portrait",
+              "square"
+            ]
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "unsplash",
+              "pexels"
+            ]
+          },
+          "limit": {
+            "description": "Candidates to return, default 6.",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8
+          },
+          "preview": {
+            "description": "Return a small thumbnail of each candidate as an image block. Default true; false when your client cannot view images.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Search stock photos",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "place_image",
+      "title": "Place image",
+      "description": "Put a real photograph on the canvas inside a box, the way a design tool does it: fit \"cover\" crops the picture to the box through a clipPath (the photo keeps its true proportions and stays repositionable, it is never squashed), fit \"contain\" fits it whole inside. corner_radius rounds the frame. scrim lays a transparent-to-colour gradient over the photo so overlay text stays readable on any image. Give it ONE source: data_url (base64 bytes you already have), url (a direct link to a PNG, JPEG, WebP or GIF, which the server fetches and size-limits to 1.5 MB) or photo {query} (the server searches Unsplash, then Pexels, and the reply says which source and the attribution to credit). Coordinates are local to artboard when given. Returns the image, scrim and clip ids and the rendered box; one undo step. For a hero card with a title over the photo, prefer the photo_card component inside create_layout, which lays the caption out for you. Choose the photo with search_photos first (read docs guide photos); for a file the user supplied (a generated image, a logo) use upload_asset. Refused (drawn_only) in a project set to imagery \"drawn\": draw the picture instead.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "data_url": {
+            "description": "data:image/png|jpeg|webp|gif;base64,... Use this only for bytes you already hold; prefer url or photo.",
+            "type": "string",
+            "maxLength": 6000000
+          },
+          "url": {
+            "description": "Direct link to an image file. The server fetches it; the editor cannot fetch across origins.",
+            "type": "string",
+            "maxLength": 2048,
+            "format": "uri"
+          },
+          "photo": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 80,
+                "description": "What the photo should show, e.g. \"mountain trail forest\"."
+              },
+              "orientation": {
+                "type": "string",
+                "enum": [
+                  "landscape",
+                  "portrait",
+                  "square"
+                ]
+              },
+              "source": {
+                "description": "Force one source. Default: Unsplash, then Pexels.",
+                "type": "string",
+                "enum": [
+                  "unsplash",
+                  "pexels"
+                ]
+              },
+              "index": {
+                "description": "Which search result to use, default 0. Use search_photos first when the subject matters.",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 7
+              }
+            },
+            "required": [
+              "query"
+            ],
+            "additionalProperties": false
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "width": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "height": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "fit": {
+            "description": "Default cover.",
+            "type": "string",
+            "enum": [
+              "cover",
+              "contain"
+            ]
+          },
+          "corner_radius": {
+            "type": "number",
+            "minimum": 0
+          },
+          "scrim": {
+            "description": "true for the default bottom wash, or an object. Use it under any text placed over the photo.",
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "color": {
+                    "description": "CSS colour of the wash, default #000000.",
+                    "type": "string",
+                    "maxLength": 64
+                  },
+                  "opacity": {
+                    "description": "Opacity at the strong end, default 0.62.",
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "direction": {
+                    "description": "Which edge the wash darkens toward. Default bottom, for a caption at the foot of a hero.",
+                    "type": "string",
+                    "enum": [
+                      "bottom",
+                      "top",
+                      "left",
+                      "right"
+                    ]
+                  },
+                  "start": {
+                    "description": "Where the wash begins, 0 to just under 1. Default 0.4, so the top of the photo stays clean.",
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 0.95
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          },
+          "artboard": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "string",
+                "maxLength": 120
+              }
+            ]
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 120
+          }
+        },
+        "required": [
+          "x",
+          "y",
+          "width",
+          "height"
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Place image",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "upload_asset",
+      "title": "Upload image or file",
+      "description": "Place the USER'S OWN image file on the canvas: a picture they generated, a product shot, their logo. Give exactly one source: url (a direct https link to the file; the server fetches it, refuses private or local addresses, follows at most 3 redirects and checks the real type from the bytes), data_url (base64; practical only for small files, because every character is output you must write), or asset_id (from POST /api/v1/assets, which is how a shell agent uploads a local file with one curl; see the reply's next field). PNG, JPEG, WebP and GIF up to 4 MB land as an image in the box exactly like place_image (fit cover crops through a clipPath, contain fits whole, corner_radius, scrim for overlay text). An SVG up to 512 KB and 1500 elements is sanitised (scripts, event handlers, external links and foreignObject removed) and imported as EDITABLE shapes fitted into the box and grouped; as:\"image\" keeps it as one picture instead. Without width and height it keeps its natural size, shrunk to fit and centred on the artboard. Coordinates are local to artboard when given. One undo step. The reply carries layout_src (\"asset:<id>\", valid 24 h) to reuse the same raster as an image node or photo_card src in create_layout without sending it again. Never use this to smuggle in SVG you wrote yourself: build artwork with the drawing operations. SVG typed inline as a data_url is refused, and SVG files that read as model-written are refused too. The one exception is purpose:\"pattern_tile\": a small repeating tile (patterns, textures, hatching, dot fields; at most 128 units a side) that becomes a repeating pattern fill on shape_ids, never a picture on its own. For stock photography use search_photos.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "description": "Direct https link to a PNG, JPEG, WebP, GIF or SVG file (not a web page).",
+            "type": "string",
+            "maxLength": 2048,
+            "format": "uri"
+          },
+          "data_url": {
+            "description": "data:image/png;base64,... (or image/svg+xml). Small files only; use asset_id for anything over a few KB.",
+            "type": "string",
+            "maxLength": 5592470
+          },
+          "asset_id": {
+            "description": "ast_... from POST /api/v1/assets or an earlier upload_asset reply. Expires after 24 h.",
+            "type": "string",
+            "pattern": "^ast_[a-z2-7]{16}$"
+          },
+          "as": {
+            "description": "SVG only: shapes (default, editable) or image (one picture). Rasters are always images.",
+            "type": "string",
+            "enum": [
+              "auto",
+              "shapes",
+              "image"
+            ]
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "width": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "height": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "fit": {
+            "description": "Images only. Default cover.",
+            "type": "string",
+            "enum": [
+              "cover",
+              "contain"
+            ]
+          },
+          "corner_radius": {
+            "description": "Images only.",
+            "type": "number",
+            "minimum": 0
+          },
+          "scrim": {
+            "description": "Images only: a gradient wash so text over the picture reads.",
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "color": {
+                    "type": "string",
+                    "maxLength": 64
+                  },
+                  "opacity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "direction": {
+                    "type": "string",
+                    "enum": [
+                      "bottom",
+                      "top",
+                      "left",
+                      "right"
+                    ]
+                  },
+                  "start": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 0.95
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          },
+          "artboard": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "string",
+                "maxLength": 120
+              }
+            ]
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "purpose": {
+            "description": "artwork (default): place the user's file. pattern_tile: an SVG tile that repeats as the fill of shape_ids (patterns and textures only).",
+            "type": "string",
+            "enum": [
+              "artwork",
+              "pattern_tile"
+            ]
+          },
+          "shape_ids": {
+            "description": "pattern_tile only: the shapes to fill with the repeating tile.",
+            "minItems": 1,
+            "maxItems": 200,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 128
+            }
+          },
+          "tile_size": {
+            "description": "pattern_tile only: the tile's width in document units (height follows the SVG's aspect). Default: the SVG's own width, capped at 128.",
+            "type": "number",
+            "minimum": 2,
+            "maximum": 128
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false
+      },
+      "annotations": {
+        "title": "Upload image or file",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    }
+  ],
+  "resources": [],
+  "prompts": []
+}
