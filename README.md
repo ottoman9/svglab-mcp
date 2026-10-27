@@ -1,5 +1,12 @@
 # SVG Lab MCP
 
+[![Add to Claude](https://img.shields.io/badge/Add_to_Claude-D97757?style=for-the-badge&logo=claude&logoColor=white)](https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=SVG%20Lab&connectorUrl=https%3A%2F%2Fsvglab.app%2Fmcp)
+[![Add to Cursor](https://img.shields.io/badge/Add_to_Cursor-000000?style=for-the-badge&logo=cursor&logoColor=white)](https://svglab.app/mcp-server?app=cursor)
+[![Install in VS Code](https://img.shields.io/badge/Install_in_VS_Code-007ACC?style=for-the-badge)](https://svglab.app/mcp-server?app=vscode)
+[![Connect any app](https://img.shields.io/badge/Connect_any_app-0B0B10?style=for-the-badge&logo=modelcontextprotocol&logoColor=B5FF3A)](https://svglab.app/mcp-server#connect)
+
+Add to Claude opens Claude's Add custom connector dialog with SVG Lab already filled in; press Add, then Connect. The Cursor and VS Code buttons open SVG Lab's install step for that app, which hands over to the app (GitHub cannot link to an app directly).
+
 [![smithery badge](https://smithery.ai/badge/svglab/svglab)](https://smithery.ai/servers/svglab/svglab)
 Listed on [Smithery](https://smithery.ai/servers/svglab/svglab) and [Glama](https://glama.ai/mcp/connectors/app.svglab/svglab). Facts, offer and setup: https://svglab.app/mcp-server
 
@@ -44,11 +51,18 @@ client_id:         not needed; leave client ID and client secret empty
 no_credentials:    POST /mcp answers 401 with a WWW-Authenticate header pointing at resource_metadata
 key_alternative:   header "Authorization: Bearer svl_KEY" (the user creates the key at svglab.app:
                    account menu, SVG Lab MCP, Generate key). Never invent a key.
-access:            every account gets 100 free requests once to try it, no form; then the Plus or Max plan, or top-ups: https://svglab.app/billing
-cost:              100 free requests once per account, then Plus and Max (monthly request allowance) or top-ups (never expire); 1 tool call = 1 request, failed calls free
+access:            every account gets 100 free credits (up to 24 app screens) once to try it, no form; then a plan (Starter, Plus, Max, Ultra or Team) or a top-up: https://svglab.app/billing
+cost:              credits: 1 a tool call, 2 a reference image search, failed calls free; 100 free credits (up to 24 app screens) once per account, then monthly plan credits or top-up credits (never expire)
+usage:             https://svglab.app/usage (the signed in account's credits and its calls by tool, project and day)
 browser_tab:       not needed; the server runs the Design Engine and saves to the user's My Projects
 first_call:        can take 10 to 30 seconds while the Design Engine starts
 sessions:          up to 2 AI sessions per SVG Lab account at once, each in its own artboard group
+one_click_claude:  https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=SVG%20Lab&connectorUrl=https%3A%2F%2Fsvglab.app%2Fmcp
+                   (opens Add custom connector with SVG Lab filled in; the user presses Add, then Connect)
+one_click_cursor:  cursor://anysphere.cursor-deeplink/mcp/install?name=svglab&config=eyJ1cmwiOiJodHRwczovL3N2Z2xhYi5hcHAvbWNwIn0=
+one_click_vscode:  vscode:mcp/install?%7B%22name%22%3A%22svglab%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fsvglab.app%2Fmcp%22%7D
+app_steps:         https://svglab.app/mcp-server?app=NAME opens one app's steps; NAME is claude, chatgpt, codex,
+                   claude-code, cursor or vscode. Every app: https://svglab.app/mcp-server#connect
 registry_name:     app.svglab/svglab
 setup_markdown:    https://svglab.app/mcp-setup (send the header Accept: text/markdown)
 agent_skill:       skills/svglab-mcp/SKILL.md in this repository (npx skills add ottoman9/svglab-mcp)
@@ -56,20 +70,20 @@ agent_skill:       skills/svglab-mcp/SKILL.md in this repository (npx skills add
 
 Procedure:
 
-1. **Find the app.** Work out which app the user is in (Claude Code, OpenCode, Codex, Cursor, VS Code, Gemini CLI, Windsurf, Claude, ChatGPT). If you cannot tell, ask once. If the user is not sure their account has access, ask them to open https://svglab.app/billing while signed in: it shows the current plan, the free requests left and any top-up balance. Every account gets 100 free requests; after that the SVG Lab MCP needs Plus, Max or a top-up.
+1. **Find the app.** Work out which app the user is in (Claude Code, OpenCode, Codex, Cursor, VS Code, Gemini CLI, Windsurf, Claude, ChatGPT). If you cannot tell, ask once. If the user is not sure their account has access, ask them to open https://svglab.app/billing while signed in: it shows the current plan and the credits left (plan, free and top-up). Every account gets 100 free credits (up to 24 app screens); after that the SVG Lab MCP needs a plan (Starter, Plus, Max, Ultra or Team) or a top-up.
 2. **Add the server.** Use that app's block below exactly as written, with the name `svglab`. Prefer the user level config (every project) unless the user asks for one project. When editing a config file, merge the entry into the existing file and keep every other server and setting. Never put a key in a project file that could be committed to git; use the environment variable form.
 3. **Start the sign-in.** Run the app's sign-in step (for example `opencode mcp auth svglab`, or `/mcp` in Claude Code). It opens the browser and waits until the user signs in to SVG Lab and presses Approve, so either run it and wait, or ask the user to run it in their own terminal. You cannot approve for them; tell them what to expect.
 4. **Reload.** Restart the app or start a new session so it loads the SVG Lab tools. If you are running inside the app you are configuring, a restart ends your own session: finish the steps above first, then ask the user to restart and paste the test prompt from [Check it works](#check-it-works) into a new session.
-5. **Verify.** In the new session, check your own tool list for tools from svglab. With access there are dozens of design tools. If there is only one tool, an account status tool, the connection works but the account cannot design yet (its 100 free requests are used up and it has no Plus or Max plan and no top-up, the account is suspended, or a key was replaced): call it and pass its message to the user. With sign-in, an account without access usually stops earlier: the SVG Lab sign-in page says the free trial is used up and does not let the user approve.
+5. **Verify.** In the new session, check your own tool list for tools from svglab. With access there are dozens of design tools. If there is only one tool, an account status tool, the connection works but the account cannot design yet (its 100 free credits are used up and it has no plan credits and no top-up credits, the account is suspended, or a key was replaced): call it and pass its message to the user. With sign-in, an account without access usually stops earlier: the SVG Lab sign-in page says the free credits are used up; the user can still approve, and the account status tool then says how to get credits.
 6. **Test.** Run the test prompt from [Check it works](#check-it-works) and give the user the project link it returns. The first design step can take 10 to 30 seconds; that is not a failure.
-7. **If access is not granted**, tell the user: "SVG Lab is set up, but your SVG Lab account has no SVG Lab MCP requests left: its 100 free requests are used up. Choose Plus or Max, or buy a top-up, at https://svglab.app/billing with the same account, and then it works with no more setup."
+7. **If access is not granted**, tell the user: "SVG Lab is set up, but your SVG Lab account has no SVG Lab credits left: its 100 free credits are used up. Choose a plan, or buy a top-up, at https://svglab.app/billing with the same account, and then it works with no more setup."
 
 ## Before you start
 
 1. An SVG Lab account. Sign in at https://svglab.app/ with Google or an email link.
-2. Nothing to buy to try it: every account gets 100 free SVG Lab MCP requests, once, with no form. After that, choose Plus or Max, or buy a top-up (150 requests per US dollar, from 10 dollars, never expire, all purchases final), at https://svglab.app/billing . Accounts granted early access have it too.
+2. Nothing to buy to try it: every account gets 100 free credits (up to 24 app screens) once, with no form (a tool call costs 1 credit). After that, choose a plan (Starter, Plus, Max, Ultra or Team) or buy a top-up at https://svglab.app/billing : $10 for 5,000 credits (up to 1,200 app screens), $25 for 10,000 credits (up to 2,400 app screens) or $50 for 25,000 credits (up to 6,100 app screens). Top-up credits never expire; all purchases are final.
 
-Sign in with the same account every time: when the AI app opens the SVG Lab sign-in page, use the account that has Plus, Max or early access. Designs are saved to that account's My Projects.
+Sign in with the same account every time: when the AI app opens the SVG Lab sign-in page, use the same account, so its free credits, plan or top-ups apply. Designs are saved to that account's My Projects.
 
 Every app signs in the same way: add the address, the app opens a "Sign in to SVG Lab" page, sign in, check which app is asking, press Approve.
 
@@ -81,11 +95,11 @@ Short versions below. Ready config files are in [configs/](configs/). The full g
 
 Custom connectors are available on the Free, Pro, Max, Team and Enterprise plans; a Free account can add one custom connector.
 
-1. In Claude, open Customize, then Connectors (on the web: https://claude.ai/customize/connectors).
-2. Press +, then Add custom connector.
-3. Name it `SVG Lab` and paste `https://svglab.app/mcp` as the remote MCP server URL. Leave Advanced settings (OAuth Client ID and Secret) empty.
-4. Press Add, then Connect next to SVG Lab. Sign in to SVG Lab and press Approve.
-5. In a chat, press + at the lower left, open Connectors and make sure SVG Lab is switched on.
+1. **One click:** open [Add SVG Lab to Claude](https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=SVG%20Lab&connectorUrl=https%3A%2F%2Fsvglab.app%2Fmcp). Claude opens Add custom connector with the name `SVG Lab` and the URL `https://svglab.app/mcp` already filled in. Check them and leave Advanced settings (OAuth Client ID and Secret) empty.
+2. Press Add, then Connect next to SVG Lab. Sign in to SVG Lab and press Approve.
+3. In a chat, press + at the lower left, open Connectors and make sure SVG Lab is switched on.
+
+By hand instead: in Claude, open Customize, then Connectors (on the web: https://claude.ai/customize/connectors), press +, then Add custom connector. Name it `SVG Lab`, paste `https://svglab.app/mcp` as the remote MCP server URL, and continue from step 2.
 
 Team or Enterprise: an owner adds the connector once under Organization settings, then Connectors; each person presses Connect and signs in with their own SVG Lab account.
 
@@ -136,7 +150,7 @@ Then sign in with the app's Authenticate button as in step 4.
 
 ### Cursor
 
-Add to `~/.cursor/mcp.json` (every project) or `.cursor/mcp.json` (this project only), merging into an existing `mcpServers`:
+One click: open [svglab.app/mcp-server?app=cursor](https://svglab.app/mcp-server?app=cursor), press Add to Cursor, then press Install in Cursor and sign in. Or by hand: add to `~/.cursor/mcp.json` (every project) or `.cursor/mcp.json` (this project only), merging into an existing `mcpServers`:
 
 ```json
 {
@@ -152,7 +166,7 @@ Open Cursor Settings and find svglab in the MCP list. When Cursor asks you to si
 
 ### VS Code (GitHub Copilot agent mode)
 
-Create `.vscode/mcp.json` in the project (or run "MCP: Open User Configuration" for every project). The top key is `servers`, not `mcpServers`:
+One click: open [svglab.app/mcp-server?app=vscode](https://svglab.app/mcp-server?app=vscode), press Add to VS Code, then press Install in VS Code and sign in. Or by hand: create `.vscode/mcp.json` in the project (or run "MCP: Open User Configuration" for every project). The top key is `servers`, not `mcpServers`:
 
 ```json
 {
@@ -274,7 +288,9 @@ App screens made through the SVG Lab MCP, as shown on [svglab.app/mcp-server](ht
 
 ## Access
 
-Every SVG Lab account gets **100 free requests** to try the SVG Lab MCP, once, with no form to fill in. After that, the **Plus** and **Max** plans include a monthly allowance of requests, and **top-ups** add requests that never expire (150 requests per US dollar, from 10 dollars; all purchases are final). One tool call is one request, and calls that fail are not counted. Plans and top-ups: https://svglab.app/billing . You can see your usage at https://svglab.app/usage .
+SVG Lab counts in credits. Every SVG Lab account gets 100 free credits (up to 24 app screens) once to try it, with no form to fill in. A tool call costs 1 credit, a reference image search 2, and failed calls cost nothing. After that, a plan adds credits every month: Starter ($7 a month, 2,500 credits, up to 600 app screens), Plus ($20, 7,400 credits, up to 1,800 app screens), Max ($40, 15,000 credits, up to 3,700 app screens) or Ultra ($99, 37,400 credits, up to 9,200 app screens), and for a team Team ($10 per editor seat a month, at least 2 seats, each seat 2,500 credits, up to 600 app screens, viewers free); top-ups add credits that never expire, for any account: $10 for 5,000 credits (up to 1,200 app screens), $25 for 10,000 credits (up to 2,400 app screens) and $50 for 25,000 credits (up to 6,100 app screens).
+
+Plans and top-ups: https://svglab.app/billing . Your credits and usage: https://svglab.app/usage .
 
 ## FAQ
 
@@ -285,10 +301,10 @@ No. Every app above can sign in: it opens SVG Lab's sign-in page, you press Appr
 No. Nothing needs to be open in SVG Lab, and there is no code to type in. SVG Lab runs the Design Engine on its own servers, and everything your assistant makes is saved to My Projects, ready when you open SVG Lab.
 
 **What does it cost?**
-Every SVG Lab account gets 100 free requests to try the SVG Lab MCP, once, with no form to fill in. After that, the Plus and Max plans each include a monthly allowance of requests, and top-ups add requests that never expire (150 requests per US dollar, from 10 dollars; all purchases are final). One tool call is one request, and calls that fail are not counted. See the plans and top-ups at https://svglab.app/billing .
+SVG Lab counts in credits. Every SVG Lab account gets 100 free credits (up to 24 app screens) once to try it, with no form to fill in. A tool call costs 1 credit, a reference image search 2, and failed calls cost nothing. After that, a plan adds credits every month: Starter ($7 a month, 2,500 credits, up to 600 app screens), Plus ($20, 7,400 credits, up to 1,800 app screens), Max ($40, 15,000 credits, up to 3,700 app screens) or Ultra ($99, 37,400 credits, up to 9,200 app screens), and for a team Team ($10 per editor seat a month, at least 2 seats, each seat 2,500 credits, up to 600 app screens, viewers free); top-ups add credits that never expire, for any account: $10 for 5,000 credits (up to 1,200 app screens), $25 for 10,000 credits (up to 2,400 app screens) and $50 for 25,000 credits (up to 6,100 app screens). See the plans and top-ups at https://svglab.app/billing .
 
 **Which account does my work go to?**
-The SVG Lab account you signed in with when you pressed Approve. Use the same account that has Plus, Max or early access.
+The SVG Lab account you signed in with when you pressed Approve. Use the same account every time, so its free credits, plan or top-ups apply.
 
 **Can I connect more than one app?**
 Yes. Connect as many apps as you like. Up to two AI sessions can design on one SVG Lab account at the same time, each in its own group of artboards, and you can keep working on the rest of the project while they do.
@@ -307,6 +323,7 @@ More answers and troubleshooting: https://svglab.app/mcp-setup . Still stuck? Em
 ## Links
 
 - Website: https://svglab.app/mcp-server
+- Connect your AI app: https://svglab.app/mcp-server#connect
 - Setup guide: https://svglab.app/mcp-setup
 - Plans and top-ups: https://svglab.app/billing
 - Your usage: https://svglab.app/usage
