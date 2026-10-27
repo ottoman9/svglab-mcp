@@ -1,9 +1,9 @@
 # SVG Lab MCP
 
 [![Add to Claude](https://img.shields.io/badge/Add_to_Claude-D97757?style=for-the-badge&logo=claude&logoColor=white)](https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=SVG%20Lab&connectorUrl=https%3A%2F%2Fsvglab.app%2Fmcp)
-[![Add to Cursor](https://img.shields.io/badge/Add_to_Cursor-000000?style=for-the-badge&logo=cursor&logoColor=white)](https://svglab.app/mcp-server?app=cursor)
+[![Add to Cursor](https://img.shields.io/badge/Add_to_Cursor-3A3A3A?style=for-the-badge&logo=cursor&logoColor=white)](https://svglab.app/mcp-server?app=cursor)
 [![Install in VS Code](https://img.shields.io/badge/Install_in_VS_Code-007ACC?style=for-the-badge)](https://svglab.app/mcp-server?app=vscode)
-[![Connect any app](https://img.shields.io/badge/Connect_any_app-0B0B10?style=for-the-badge&logo=modelcontextprotocol&logoColor=B5FF3A)](https://svglab.app/mcp-server#connect)
+[![Connect any app](https://img.shields.io/badge/Connect_any_app-B5FF3A?style=for-the-badge&logo=modelcontextprotocol&logoColor=0B0B10)](https://svglab.app/mcp-server#connect)
 
 Add to Claude opens Claude's Add custom connector dialog with SVG Lab already filled in; press Add, then Connect. The Cursor and VS Code buttons open SVG Lab's install step for that app, which hands over to the app (GitHub cannot link to an app directly).
 
