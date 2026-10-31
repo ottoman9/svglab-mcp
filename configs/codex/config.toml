@@ -1,5 +1,5 @@
 # Add to ~/.codex/config.toml (shared by the Codex app, IDE extension and CLI).
-# Or skip this file: in the Codex app, Settings > Plugins > MCPs > Add > Connect to a custom MCP.
+# Codex app and CLI: skip this file and install the SVG Lab plugin (Plugins tab, or /plugins). This file is for the Codex IDE extension.
 # Then press Authenticate on the SVG Lab row in the Codex app's MCP settings.
 [mcp_servers.svglab]
 url = "https://svglab.app/mcp"

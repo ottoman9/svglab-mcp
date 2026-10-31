@@ -113,27 +113,21 @@ claude mcp add --transport http --scope user svglab https://svglab.app/mcp
 
 ### ChatGPT
 
-Needs developer mode, available on the web for ChatGPT Plus, Pro, Business, Enterprise and Education (in a Business, Enterprise or Education workspace an admin has to allow it first).
+Install the SVG Lab plugin in one click, no developer mode:
 
-1. Settings, then Security and login: turn on Developer mode.
-2. Open Plugins and press + to create a developer mode app.
-3. Name: `SVG Lab`. Description: `Design Engine for AI: app screens, icons, illustrations and charts as finished SVG`. MCP server URL: `https://svglab.app/mcp`. Authentication: OAuth.
-4. Create it. When ChatGPT asks you to sign in, sign in to SVG Lab and press Approve.
-5. In a chat, open the + menu, choose Developer mode and select SVG Lab.
-
-ChatGPT renames these menus from time to time. If Plugins is missing, look for Apps or Connectors in Settings; the fields are the same.
+1. Open the [SVG Lab plugin](https://chatgpt.com/plugins/plugin_asdk_app_6ad2bf1ec4988191a371f507e64ed23b) and press +, or in ChatGPT open Plugins, search SVG Lab and press +.
+2. Sign in to SVG Lab when asked and press Approve.
+3. Ask for a design in any chat.
 
 ### Codex
 
-Everything happens in the Codex app; no terminal needed. The app, the IDE extension and the CLI share `~/.codex/config.toml`, so add SVG Lab once.
+Codex installs the same SVG Lab plugin:
 
-1. In the Codex app, open Settings, then Plugins, then the MCPs tab.
-2. Press Add, then Connect to a custom MCP.
-3. Name it `SVG Lab`, set the type to Streamable HTTP, and paste the URL `https://svglab.app/mcp`. Leave the bearer token and headers empty, then press Save.
-4. In the Servers list, press Authenticate on the SVG Lab row (next to the gear icon, before the switch). The browser opens the SVG Lab sign-in page; press Approve. When the browser says the sign-in is complete, go back to Codex.
-5. Start a new Codex thread so it loads the SVG Lab tools.
+1. In the Codex app, open Plugins, search SVG Lab and press +. In the Codex CLI, type `/plugins`.
+2. Sign in to SVG Lab when asked and press Approve.
+3. Start a new Codex thread so it loads the SVG Lab tools.
 
-From the terminal instead (developers):
+The Codex IDE extension has no plugins. There, add the server by hand (the app, the IDE extension and the CLI share `~/.codex/config.toml`):
 
 ```sh
 codex mcp add svglab --url https://svglab.app/mcp
