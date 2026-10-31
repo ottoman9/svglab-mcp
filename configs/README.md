@@ -13,6 +13,6 @@ Each file adds the SVG Lab MCP (`https://svglab.app/mcp`, streamable HTTP, OAuth
 | Gemini CLI | [gemini-cli/settings.json](gemini-cli/settings.json) | `~/.gemini/settings.json` |
 | Any other MCP client | [generic/mcp.json](generic/mcp.json) | Wherever the client reads its MCP servers |
 
-Claude (claude.ai, Claude Desktop) and ChatGPT are set up in their settings screens, with no file. See the main [README](../README.md#quick-setup).
+Claude (claude.ai, Claude Desktop) is set up in its settings screen, with no file. ChatGPT and Codex: install the SVG Lab plugin in one click. See the main [README](../README.md#quick-setup).
 
 After adding the server, run the app's sign-in step, sign in to SVG Lab and press Approve. No key is needed. Key-based versions of every config (for machines with no browser) are in the full guide: https://svglab.app/mcp-setup . Never put a key in a file that could be committed to git.
