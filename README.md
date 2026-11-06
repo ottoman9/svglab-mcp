@@ -1,14 +1,16 @@
 # SVG Lab MCP
 
+[![Install in ChatGPT](https://img.shields.io/badge/Install_in_ChatGPT-10A37F?style=for-the-badge&logo=openai&logoColor=white)](https://chatgpt.com/plugins/plugin_asdk_app_6ad2bf1ec4988191a371f507e64ed23b)
 [![Add to Claude](https://img.shields.io/badge/Add_to_Claude-D97757?style=for-the-badge&logo=claude&logoColor=white)](https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=SVG%20Lab&connectorUrl=https%3A%2F%2Fsvglab.app%2Fmcp)
 [![Add to Cursor](https://img.shields.io/badge/Add_to_Cursor-3A3A3A?style=for-the-badge&logo=cursor&logoColor=white)](https://svglab.app/mcp-server?app=cursor)
 [![Install in VS Code](https://img.shields.io/badge/Install_in_VS_Code-007ACC?style=for-the-badge)](https://svglab.app/mcp-server?app=vscode)
 [![Connect any app](https://img.shields.io/badge/Connect_any_app-B5FF3A?style=for-the-badge&logo=modelcontextprotocol&logoColor=0B0B10)](https://svglab.app/mcp-server#connect)
 
-Add to Claude opens Claude's Add custom connector dialog with SVG Lab already filled in; press Add, then Connect. The Cursor and VS Code buttons open SVG Lab's install step for that app, which hands over to the app (GitHub cannot link to an app directly).
+Install in ChatGPT opens the published SVG Lab plugin (ChatGPT and Codex). Add to Claude opens Claude's Add custom connector dialog with SVG Lab already filled in; press Add, then Connect. The Cursor and VS Code buttons open SVG Lab's install step for that app, which hands over to the app (GitHub cannot link to an app directly).
 
-[![smithery badge](https://smithery.ai/badge/svglab/svglab)](https://smithery.ai/servers/svglab/svglab)
-Listed on [Smithery](https://smithery.ai/servers/svglab/svglab) and [Glama](https://glama.ai/mcp/connectors/app.svglab/svglab). Facts, offer and setup: https://svglab.app/mcp-server
+Listed on [Glama](https://glama.ai/mcp/connectors/app.svglab/svglab) and in the official MCP registry as `app.svglab/svglab`. Facts, offer and setup: https://svglab.app/mcp-server
+
+**Watch it work (2:46, no voice):** [Design an app with ChatGPT: the SVG Lab plugin, start to finish](https://youtu.be/drBHSbu-ijU). One request becomes 10 app screens, a custom logo, social posts and a poster, then a clickable prototype with a share link.
 
 **SVG Lab MCP** lets your AI design inside [SVG Lab (svglab.app)](https://svglab.app/mcp-server), and you watch it live. Connect Claude, ChatGPT, Codex, Cursor or any other MCP client and ask for app screens, icons, illustrations or charts: your AI designs them in your SVG Lab project with SVG Lab's Design Engine (layout, spacing, type, colour and drawing, checked before anything is finished). claude.ai, ChatGPT and Codex show a live card in the chat with the screen being drawn; in any app the AI can open the project in the SVG Lab editor so you watch the work on SVG Lab's canvas. The finished designs are saved to your SVG Lab projects as clean SVG, ready to export as SVG, PNG or PDF.
 
